@@ -106,7 +106,7 @@
                             </div>
                             <div class="mini_cart_wrapper">
                                 <a href="javascript:void(0)"><img src="{% static 'assets/img/shopping-bag.png' %}" alt=""></a>
-                                <span class="cart_quantity">2</span>
+                                <span id="cart-total">{{cartItems}}</span>
                                 <!--mini cart-->
                                  <div class="mini_cart">
                                     <div class="cart_item">
@@ -259,46 +259,30 @@
                                     </form>
                                 </div>
                                 <div class="middel_right_info">
-                                    <div class="header_wishlist">
-                                        <a href="#"><img src="{% static 'assets/img/user.png' %}" alt=""></a>
-                                    </div>
                                     <div class="mini_cart_wrapper">
                                         <a href="javascript:void(0)"><img src="{% static 'assets/img/shopping-bag.png' %}" alt=""></a>
-                                        <span class="cart-total">{{cartItems}}</span>
-                                        <!--mini cart-->
+                                        <p id="cart-total">{{cartItems}}</p>
+                                        <!--mini cart--> 
                                          <div class="mini_cart">
+                                            {% for item in items %}
                                             <div class="cart_item">
                                                <div class="cart_img">
-                                                   <a href="#"><img src="{% static 'assets/img/s-product/product.jpg' %}" alt=""></a>
+                                                   <a href="#"><img src="{{item.product.imageURL}}" alt=""></a>
                                                </div>
                                                 <div class="cart_info">
-                                                    <a href="#">Sit voluptatem rhoncus sem lectus</a>
-                                                    <p>Qty: 1 X <span> $60.00 </span></p>    
-                                                </div>
-                                                <div class="cart_remove">
-                                                    <a href="#"><i class="ion-android-close"></i></a>
+                                                    <a href="#">{{item.product.name}}</a>
+                                                    <p>Qty: {{item.quantity}} X <span>&#8358; {{item.product.price|floatformat:2}}</span></p>    
                                                 </div>
                                             </div>
-                                            <div class="cart_item">
-                                               <div class="cart_img">
-                                                   <a href="#"><img src="{% static 'assets/img/s-product/product2.jpg' %}" alt=""></a>
-                                               </div>
-                                                <div class="cart_info">
-                                                    <a href="#">Natus erro at congue massa commodo</a>
-                                                    <p>Qty: 1 X <span> $60.00 </span></p>   
-                                                </div>
-                                                <div class="cart_remove">
-                                                    <a href="#"><i class="ion-android-close"></i></a>
-                                                </div>
-                                            </div>
+                                            {% endfor %}
                                             <div class="mini_cart_table">
                                                 <div class="cart_total">
-                                                    <span>Sub total:</span>
-                                                    <span class="price">$138.00</span>
+                                                    <span>Total Items:</span>
+                                                    <span class="price">{{order.get_cart_items}}</span>
                                                 </div>
                                                 <div class="cart_total mt-10">
-                                                    <span>total:</span>
-                                                    <span class="price">$138.00</span>
+                                                    <span>Total Price:</span>
+                                                    <span class="price">&#8358; {{order.get_cart_total|floatformat:2}}</span>
                                                 </div>
                                             </div>
 

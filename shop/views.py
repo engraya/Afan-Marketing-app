@@ -31,7 +31,7 @@ def shop(request):
 	items = data['items']
 
 	products = Product.objects.all()
-	context = {'products' : products, 'cartItems' : cartItems}
+	context = {'products' : products, 'cartItems' : cartItems, 'order' : order, 'items' : items}
 	return render(request, 'shop/shopPage.html', context)
 
 
@@ -47,7 +47,7 @@ def cart(request):
 
 
 def checkOut(request):
-	data = cartData(reuqest)
+	data = cartData(request)
 
 	cartItems = data['cartItems']
 	order = data['order']
@@ -189,7 +189,7 @@ def addProduct(request):
 		if form.is_valid():
 			form.save()
 			messages.success(request, "Product Added Successfully!.")
-			return redirect("shopPage")
+			return redirect("shop")
 		else:
 			messages.error(request, "Error Occured while Adding a New Product...!")
 	else:
@@ -199,6 +199,19 @@ def addProduct(request):
 
 
 
+
+def productDetails(request, pk):
+	product = Product.objects.get(id=pk)
+	context = {'product' : product}
+	return render(request, 'shop/productDetail.html', context)
+
+
+def deleteProduct(request, pk):
+	product = Product.objects.get(id=pk)
+	product.delete()
+	return redirect('shop')
+
+
 def updateItem(request):
 	data = json.loads(request.body)
 	productId = data['productId']
@@ -206,9 +219,9 @@ def updateItem(request):
 	print('Action:', action)
 	print('Product:', productId)
 
-	customer = request.user.customer
+	buyer = request.user.buyer
 	product = Product.objects.get(id=productId)
-	order, created = Order.objects.get_or_create(customer=customer, complete=False)
+	order, created = Order.objects.get_or_create(buyer=buyer, complete=False)
 
 	orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
 
