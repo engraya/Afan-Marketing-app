@@ -8,8 +8,7 @@
                 <div class="col-12">
                     <div class="breadcrumb_content">
                         <ul>
-                            <li><a href="/">home</a></li>
-                            <li>Register</li>
+                            <li><a class="btn btn-sm btn-danger text-white" href="{% url 'farmerClick' %}">Back</a></li>
                         </ul>
                     </div>
                 </div>
@@ -32,18 +31,32 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="account-content">
-                                    <form action="#">
+                                    <form method="POST">
+                                        {% csrf_token %}
                                         <div class="single-acc-field">
-                                            <label for="name">Name</label>
-                                            <input type="text" id="name" placeholder="Enter Your Name">
+                                            <label for="first_name">First Name</label>
+                                            <!-- <input type="text" id="first_name" placeholder="Enter Your First Name"> -->
+                                            {{form.first_name}}
+                                        </div>
+                                        <div class="single-acc-field">
+                                            <label for="last_name">Last Name</label>
+                                            <!-- <input type="text" id="last_name" placeholder="Enter Your Last Name"> -->
+                                            {{form.last_name}}
+                                        </div>
+                                        <div class="single-acc-field">
+                                            <label for="username">UserName</label>
+                                            <!-- <input type="text" id="username" placeholder="Enter Your UserName"> -->
+                                            {{form.username}}
                                         </div>
                                         <div class="single-acc-field">
                                             <label for="email">Email</label>
-                                            <input type="email" id="email" placeholder="Enter your Email">
+                                            <!-- <input type="email" id="email" placeholder="Enter your Email"> -->
+                                            {{form.email}}
                                         </div>
                                         <div class="single-acc-field">
                                             <label for="password">Password</label>
-                                            <input type="password" id="password" placeholder="At least 6 Charecter">
+                                            <!-- <input type="password" id="password" placeholder="At least 5 Charecters"> -->
+                                            {{form.password}}
                                         </div>
                                         <div class="single-acc-field">
                                             <button type="submit">Register now</button>

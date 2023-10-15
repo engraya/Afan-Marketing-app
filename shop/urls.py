@@ -3,7 +3,8 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('home', views.home, name='home'),
+    path('', views.landingPage, name="landingPage"),
     path('cart', views.cart, name="cart"),
     path('checkout', views.checkout, name="checkout"),
     path('shop', views.shop, name="shop"),
@@ -11,11 +12,17 @@ urlpatterns = [
     path('farmerClick', views.farmerClick, name='farmerClick'),
     path('buyerClick', views.buyerClick, name='buyerClick'),
 
+    path("afterlogin", views.afterlogin, name="afterlogin"),
+
     path('buyerPage', views.buyerPage, name='buyerPage'),
     path('farmerPage', views.farmerPage, name='farmerPage'),
+
+    path('logout', views.logoutPage, name='logout'),
 
     path('farmerRegister', views.farmerRegister, name='farmerRegister'),
     path('farmerLogin', views.farmerLogin, name='farmerLogin'),
     path('buyerRegister', views.buyerRegister, name='buyerRegister'),
     path('buyerLogin', views.buyerLogin, name='buyerLogin'),
+
+    path('newProduct', views.addProduct, name="newProduct"),
 ]

@@ -412,7 +412,7 @@ section.shipping_area {
 .account-contents {
     box-shadow: 0 8px 26px 5px rgba(0,0,0,0.1), 0 10px 25px 10px rgba(0,0,0,0.1);
     position: relative;
-    z-index: 1;
+    margin-top: 0px;
 }
 
 .account-content {

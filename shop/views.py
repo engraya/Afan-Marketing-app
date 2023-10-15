@@ -5,16 +5,18 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db import IntegrityError
 from django.contrib.auth.models import Group
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 
 # Create your views here.
 
+def landingPage(request):
+	return render(request, 'shop/landingPage.html')
+
+
 def home(request):
     return render(request, 'shop/home.html')
-
 
 
 def cart(request):
@@ -55,57 +57,39 @@ def buyerClick(request):
 
 
 
+
+
 def farmerRegister(request):
-	error_contex = []
-	if request.method == 'GET':
-		context = {'form': FarmerRegistrationForm}
-		return render(request, 'shop/farmerRegister.html', context)
-	else:
-		try:
-			user = User.objects.create_user(username = request.POST['username'], password=request.POST['password'])
+	form = FarmerRegistrationForm()
+	if request.method == 'POST':
+		form = FarmerRegistrationForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			user.set_password(user.password)
 			user.save()
 			farmerGroup = Group.objects.get_or_create(name='FARMER')
 			farmerGroup[0].user_set.add(user)
-			login(request, user)
-			return redirect('farmerLogin')
-		except IntegrityError:
-			error_contex.append('That username has already been taken, Try Another one!')
-			return render(request, 'shop/farmerRegister.html', {'form': FarmerRegistrationForm(), 'error_contex': error_contex})	
-	return render(request, 'shop/farmerRegister.html', {'form': FarmerRegistrationForm(), 'error_contex': error_contex})
+			return HttpResponseRedirect('farmerLogin')
+		
+	context = {'form' : form}
+	return render(request, 'shop/farmerRegister.html', context)	
 
 
 
 def buyerRegister(request):
-	error_contex = []
-	if request.method == 'GET':
-		context = {'form': BuyerRegistrationForm}
-		return render(request, 'shop/buyerRegister.html', context)
-	else:
-		if not(request.POST['username']):
-			error_contex.append('Login can\'t be empty')
-		elif not(request.POST['password1']):
-			error_contex.append('Password can\'t be empty')
-		elif not(request.POST['password2']):
-			error_contex.append('Confirm Password can\'t be empty')
-		elif request.POST['password1'] != request.POST['password2']:
-			error_contex.append('Password did not match')
-		elif len(request.POST['password1']) < 8:
-			error_contex.append('Password less then 8 characters')
-		else:
-			try:
-				user = User.objects.create_user(username = request.POST['username'], password=request.POST['password1'])
-				user.save()
-				buyerGroup = Group.objects.get_or_create(name='BUYER')
-				buyerGroup[0].user_set.add(user)
-				if user is not None:
-					if user.groups.filter(name='BUYER').exists():
-						login(request, user)
-						return redirect('buyerLogin')
-			except IntegrityError:
-				error_contex.append('That username has already been taken')
-				return render(request, 'buyerLogin.html', {'form': BuyerRegistrationForm(), 'error_contex': error_contex})	
-		return render(request, 'shop/buyerLogin.html', {'form': BuyerRegistrationForm(), 'error_contex': error_contex})
-
+	form = BuyerRegistrationForm()
+	if request.method == 'POST':
+		form = BuyerRegistrationForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			user.set_password(user.password)
+			user.save()
+			buyerGroup = Group.objects.get_or_create(name='BUYER')
+			buyerGroup[0].user_set.add(user)
+			return HttpResponseRedirect('buyerLogin')
+		
+	context = {'form' : form}
+	return render(request, 'shop/buyerRegister.html', context)	
 
 
 
@@ -136,7 +120,7 @@ def farmerLogin(request):
 				if user.groups.filter(name='FARMER').exists():
 					login(request, user)
 					messages.info(request, 'You are now Loggged in as Farmer')
-					return redirect('farmerPage')
+					return redirect('home')
 			else:
 				messages.error(request, "Invalid Username or Password, Try agin later!")
 		else:
@@ -158,7 +142,7 @@ def buyerLogin(request):
 				if user.groups.filter(name='BUYER').exists():
 					login(request, user)
 					messages.info(request, 'You are now Loggged in as Buyer')
-					return redirect('buyerLogin')
+					return redirect('home')
 			else:
 				messages.error(request, "Invalid Username or Password, Try agin later!")
 		else:
@@ -167,3 +151,23 @@ def buyerLogin(request):
 	form = BuyerLoginForm()
 	context = {'form' : form}
 	return render(request, 'shop/buyerLogin.html', context)    
+
+
+def logoutPage(request):
+	logout(request)
+	return redirect('/')
+
+	
+def addProduct(request):
+	if request.method == 'POST':
+		form  = ProductForm(request.POST, request.FILES)
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Product Added Successfully!.")
+			return redirect("shopPage")
+		else:
+			messages.error(request, "Error Occured while Adding a New Product...!")
+	else:
+		form = ProductForm()
+	context = {'form' : form}
+	return render(request, 'shop/newProduct.html', context)			

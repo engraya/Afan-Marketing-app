@@ -76,10 +76,10 @@ class BuyerLoginForm(AuthenticationForm):
 class ProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["name"].widget.attrs.update({"class": "form-control unicase-form-control", "placeholder" : "Enter your Product Name", })
-        self.fields["price"].widget.attrs.update({"class": "form-control unicase-form-control", "placeholder" : "Enter your Product price",})
+        self.fields["name"].widget.attrs.update({"class": "form-control unicase-form-control", "placeholder" : "Enter Product Name", })
+        self.fields["price"].widget.attrs.update({"class": "form-control unicase-form-control", "placeholder" : "Enter Product price",})
         self.fields["description"].widget.attrs.update({"class": "form-control unicase-form-control", "placeholder" : "Enter Product Description",})
-        self.fields["image"].widget.attrs.update({"class": "form-control unicase-form-control", "placeholder" : "Choose your Product Image",})
+        self.fields["image"].widget.attrs.update({"class": "form-control unicase-form-control", "placeholder" : "Choose Product Image",})
 
     class Meta:
         model = Product
