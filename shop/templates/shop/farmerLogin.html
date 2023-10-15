@@ -1,4 +1,4 @@
-{% extends 'shop/base.html' %}
+{% extends 'shop/prebase.html' %}
 {% load static %}
 {% block content %}
 
@@ -9,7 +9,7 @@
                 <div class="col-12">
                     <div class="breadcrumb_content">
                         <ul>
-                            <li><a href="index-2.html">home</a></li>
+                            <li><a href="/">home</a></li>
                             <li>Login</li>
                         </ul>
                     </div>
@@ -23,12 +23,11 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-10">
-					<div class="account-contents" style="background: url('assets/img/about/about1.jpg'); background-size: cover;">
+					<div class="account-contents">
                         <div class="row">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="account-thumb">
-                                    <h2>Login now</h2>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consectetur similique deleniti pariatur enim cumque eum</p>
+                                    <h2>Login as Farmer</h2>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
@@ -42,15 +41,11 @@
                                             <label for="password">Password</label>
                                             <input type="password" id="password" placeholder="Enter your password">
                                         </div>
-                                        <div class="single-acc-field boxes">
-                                            <input type="checkbox" id="checkbox">
-                                            <label for="checkbox">Remember me</label>
-                                        </div>
                                         <div class="single-acc-field">
                                             <button type="submit">Login Account</button>
                                         </div>
-                                        <a href="forget-password.html">Forget Password?</a>
-                                        <a href="register.html">Not Account Yet?</a>
+                                        <a href="#">Forget Password?</a>
+                                        <a href="{% url 'farmerRegister' %}">Not Account Yet? Register</a>
                                     </form>
                                 </div>
                             </div>

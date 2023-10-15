@@ -34,33 +34,24 @@ def contactUs(request):
     return render(request, 'shop/contactUs.html')
 
 
+def farmerPage(request):
+	return render(request, 'shop/farmerPage.html')
+
+
+def buyerPage(request):
+	return render(request, 'shop/buyerPage.html')
+
 
 def farmerClick(request):
-    return render(request, 'shop/farmerClick.html')
+	if request.user.is_authenticated:
+		return HttpResponseRedirect('afterlogin')
+	return render(request, 'shop/farmerClick.html')
 
     
 def buyerClick(request):
-    return render(request, 'shop/buyerClick.html')
-
-
-def farmerRegister(request):
-    return render(request, 'shop/farmerRegister.html')
-
-
-def farmerLogin(request):
-    return render(request, 'shop/farmerLogin.html')
-
-
-def buyerRegister(request):
-    return render(request, 'shop/buyerRegister.html')
-
-
-def buyerLogin(request):
-    return render(request, 'shop/buyerLogin.html')
-
-
-
-
+	if request.user.is_authenticated:
+		return HttpResponseRedirect('afterlogin')
+	return render(request, 'shop/buyerClick.html')
 
 
 
@@ -68,7 +59,7 @@ def farmerRegister(request):
 	error_contex = []
 	if request.method == 'GET':
 		context = {'form': FarmerRegistrationForm}
-		return render(request, 'farmerRegister.html', context)
+		return render(request, 'shop/farmerRegister.html', context)
 	else:
 		try:
 			user = User.objects.create_user(username = request.POST['username'], password=request.POST['password'])
@@ -79,7 +70,7 @@ def farmerRegister(request):
 			return redirect('farmerLogin')
 		except IntegrityError:
 			error_contex.append('That username has already been taken, Try Another one!')
-			return render(request, 'farmerRegister.html', {'form': FarmerRegistrationForm(), 'error_contex': error_contex})	
+			return render(request, 'shop/farmerRegister.html', {'form': FarmerRegistrationForm(), 'error_contex': error_contex})	
 	return render(request, 'shop/farmerRegister.html', {'form': FarmerRegistrationForm(), 'error_contex': error_contex})
 
 
@@ -88,7 +79,7 @@ def buyerRegister(request):
 	error_contex = []
 	if request.method == 'GET':
 		context = {'form': BuyerRegistrationForm}
-		return render(request, 'buyerRegister.html', context)
+		return render(request, 'shop/buyerRegister.html', context)
 	else:
 		if not(request.POST['username']):
 			error_contex.append('Login can\'t be empty')
@@ -125,54 +116,54 @@ def is_buyer(user):
 
 
 
-def afterlogin_view(request):
-    if is_admin(request.user):
-        return redirect('dating:adminPage')
-    elif is_client(request.user):
-            return redirect('dating_app:dating')
+def afterlogin(request):
+    if is_farmer(request.user):
+        return redirect('farmerPage')
+    elif is_buyer(request.user):
+            return redirect('buyerPage')
 
 
 
 
-def admin_login(request):
+def farmerLogin(request):
 	if request.method == 'POST':
-		form = AdminLoginForm(request, data=request.POST)
+		form = FarmerLoginForm(request, data=request.POST)
 		if form.is_valid():
 			username = form.cleaned_data.get('username')
 			password = form.cleaned_data.get('password')
 			user = authenticate(username=username, password=password)
 			if user is not None:
-				if user.groups.filter(name='ADMIN').exists():
+				if user.groups.filter(name='FARMER').exists():
 					login(request, user)
-					messages.info(request, 'You are now Loggged in as admin')
-					return redirect('dating_app:adminPage')
+					messages.info(request, 'You are now Loggged in as Farmer')
+					return redirect('farmerPage')
 			else:
 				messages.error(request, "Invalid Username or Password, Try agin later!")
 		else:
 			messages.error(request, "Invalid Username or Password, Try again later!")
 
-	form = AdminLoginForm()
+	form = FarmerLoginForm()
 	context = {'form' : form}
-	return render(request, 'admin_sign_in.html', context)
+	return render(request, 'shop/farmerLogin.html', context)
 
 
-def client_login(request):
+def buyerLogin(request):
 	if request.method == 'POST':
-		form = ClientLoginForm(request, data=request.POST)
+		form = BuyerLoginForm(request, data=request.POST)
 		if form.is_valid():
 			username = form.cleaned_data.get('username')
 			password = form.cleaned_data.get('password')
 			user = authenticate(username=username, password=password)
 			if user is not None:
-				if user.groups.filter(name='CLIENT').exists():
+				if user.groups.filter(name='BUYER').exists():
 					login(request, user)
-					messages.info(request, 'You are now Loggged in as admin')
-					return redirect('dating_app:dating')
+					messages.info(request, 'You are now Loggged in as Buyer')
+					return redirect('buyerLogin')
 			else:
 				messages.error(request, "Invalid Username or Password, Try agin later!")
 		else:
 			messages.error(request, "Invalid Username or Password, Try again later!")
 
-	form = ClientLoginForm()
+	form = BuyerLoginForm()
 	context = {'form' : form}
-	return render(request, 'sign_in.html', context)    
+	return render(request, 'shop/buyerLogin.html', context)    

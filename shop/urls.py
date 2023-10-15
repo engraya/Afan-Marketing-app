@@ -11,8 +11,11 @@ urlpatterns = [
     path('farmerClick', views.farmerClick, name='farmerClick'),
     path('buyerClick', views.buyerClick, name='buyerClick'),
 
+    path('buyerPage', views.buyerPage, name='buyerPage'),
+    path('farmerPage', views.farmerPage, name='farmerPage'),
+
     path('farmerRegister', views.farmerRegister, name='farmerRegister'),
-    path('farmerLogin', views.farmerRegister, name='farmerLogin'),
+    path('farmerLogin', views.farmerLogin, name='farmerLogin'),
     path('buyerRegister', views.buyerRegister, name='buyerRegister'),
     path('buyerLogin', views.buyerLogin, name='buyerLogin'),
 ]
