@@ -6,7 +6,7 @@ urlpatterns = [
     path('home', views.home, name='home'),
     path('', views.landingPage, name="landingPage"),
     path('cart', views.cart, name="cart"),
-    path('checkout', views.checkout, name="checkout"),
+    path('checkout', views.checkOut, name="checkout"),
     path('shop', views.shop, name="shop"),
     path('contactUs', views.contactUs, name="contactUs"),
     path('farmerClick', views.farmerClick, name='farmerClick'),
@@ -25,4 +25,6 @@ urlpatterns = [
     path('buyerLogin', views.buyerLogin, name='buyerLogin'),
 
     path('newProduct', views.addProduct, name="newProduct"),
+    path('update_item', views.updateItem, name="update_item"),
+    path('process_order', views.processOrder, name="process_order")
 ]
