@@ -1,0 +1,58 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container pt-4 mt-4">
+    <h3 class="text-center">Recent Orders</h3>
+</div>
+<br>
+{% for order in orders %}
+<div class="container">
+   
+    <div class="container">
+        <div class="table_desc">
+            <div class="cart_page table-responsive">
+                <div class="cart_submit">
+                    <h5>Buyer Name : {{order.buyer}}</h5>
+                        <h5>Order Date : {{order.date_ordered}}</h5>
+                </div>
+                <table>
+            <thead>
+                <tr>
+                    <th class="product_thumb">Image</th>
+                    <th class="product_name">Product</th>
+                    <th class="product-price">Price</th>
+                    <th class="product_quantity">Quantity</th>
+                    <th class="product_total">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.orderitem_set.all  %}
+                <tr>
+                    <td class="product_thumb"><a href="#"><img src="{{item.product.imageURL}}" alt=""></a></td>
+                    <td class="product_name"><a href="#">{{item.product.name}}</a></td>
+                    <td class="product-price">&#8358; {{item.product.price|floatformat:2}}</td>
+                    <td class="product_quantity">{{item.quantity}}</td>
+                    <td class="product_total">&#8358; {{item.get_total|floatformat:2}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>   
+            </div>
+            <div class="cart_submit">
+                <h4>Total Items : {{order.get_cart_items}}</h4>
+                <h4>Total Price : &#8358; {{order.get_cart_total}}</h4>
+            </div>        
+        </div>
+    </div>
+
+</div>
+<hr>
+{% endfor %}
+
+{% endblock content %}
+    
+
+
+	

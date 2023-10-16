@@ -15,7 +15,7 @@
                 </div>
     
                 <div class="row justify-content-center">
-                    {% for product in products %}
+                    {% for product in page_obj %}
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                         
                         <div class="single-tranding">
@@ -29,26 +29,52 @@
                                 <div class="tranding-pro-price">
                                     <div class="price_box">
                                         <span class="current_price">&#8358; {{product.price}}</span>
-                                        <span class="old_price">&#8358; 80.00</span>
+                            
                                     </div>
                        
                                 </div>
                             </a>
-                            <div class="align-items-center justify-content-lg-center d-lg-flex">
-                                <button data-product="{{product.id}}" data-action="add" class="btn btn-sm btn-success add-btn update-cart">Buy</button>
-                            </div>
+                            {% for group in user.groups.all %}
+                                {% if group.name == "BUYER"%}
+                                    <div class="align-items-center justify-content-lg-center d-lg-flex">
+                                        <button data-product="{{product.id}}" data-action="add" class="btn btn-sm btn-success add-btn update-cart" id="buyButton">Buy</button>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}        
                         </div>
                     </div>
                     {% endfor %}
                 </div>
              
             </div>
+            <br>
+            <hr>
+                
+                <ul class="pagination pagination-lg justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1"> &laquo; First</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                    {% endif %}
+
+                    <h4 class="page-item">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</h4>
+                    {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a></li>
+                    {% endif %}
+                  </ul>
         </section><!--Tranding product-->
     
         <!--Features area-->
-        <section class="features-area pt-60 pb-60">
+        <section class="features-area pt-60 pb-60"> 
 
-        </section><!--Features area-->
+        </section>
+        
+      <script>
+        let buyButton = document.getElementById('buyButton');
+        buyButton.addEventListener('click', () => {
+            alert('Item Successfully Added to your Order List......!');
+        });
+      </script>
 {% endblock content %}
     
 

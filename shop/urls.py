@@ -14,8 +14,6 @@ urlpatterns = [
     path('farmerClick', views.farmerClick, name='farmerClick'),
     path('buyerClick', views.buyerClick, name='buyerClick'),
 
-    path("afterlogin", views.afterlogin, name="afterlogin"),
-
     path('buyerPage', views.buyerPage, name='buyerPage'),
     path('farmerPage', views.farmerPage, name='farmerPage'),
 
@@ -28,5 +26,6 @@ urlpatterns = [
 
     path('newProduct', views.addProduct, name="newProduct"),
     path('update_item/', views.updateItem, name="update_item"),
-    path('process_order/', views.processOrder, name="process_order")
+    path('process_order/', views.processOrder, name="process_order"),
+    path('recent-orders', views.recentOrders, name='recent-orders')
 ]

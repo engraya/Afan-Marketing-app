@@ -13,6 +13,7 @@ import json
 import datetime
 from .models import * 
 from .utils import cookieCart, cartData, guestOrder
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -30,8 +31,12 @@ def shop(request):
 	order = data['order']
 	items = data['items']
 
-	products = Product.objects.all()
-	context = {'products' : products, 'cartItems' : cartItems, 'order' : order, 'items' : items}
+	product_list = Product.objects.all()
+	paginator = Paginator(product_list, 12)
+	page_number = request.GET.get('page')
+	page_obj = paginator.get_page(page_number)
+
+	context = {'page_obj' : page_obj, 'cartItems' : cartItems, 'order' : order, 'items' : items}
 	return render(request, 'shop/shopPage.html', context)
 
 
@@ -71,13 +76,13 @@ def buyerPage(request):
 
 def farmerClick(request):
 	if request.user.is_authenticated:
-		return HttpResponseRedirect('afterlogin')
+		return HttpResponseRedirect('home')
 	return render(request, 'shop/farmerClick.html')
 
     
 def buyerClick(request):
 	if request.user.is_authenticated:
-		return HttpResponseRedirect('afterlogin')
+		return HttpResponseRedirect('home')
 	return render(request, 'shop/buyerClick.html')
 
 
@@ -125,11 +130,6 @@ def is_buyer(user):
 
 
 
-def afterlogin(request):
-    if is_farmer(request.user):
-        return redirect('farmerPage')
-    elif is_buyer(request.user):
-            return redirect('buyerPage')
 
 
 
@@ -243,10 +243,10 @@ def processOrder(request):
 	data = json.loads(request.body)
 
 	if request.user.is_authenticated:
-		customer = request.user.customer
-		order, created = Order.objects.get_or_create(customer=customer, complete=False)
+		buyer = request.user.buyer
+		order, created = Order.objects.get_or_create(buyer=buyer, complete=False)
 	else:
-		customer, order = guestOrder(request, data)
+		buyer, order = guestOrder(request, data)
 
 	total = float(data['form']['total'])
 	order.transaction_id = transaction_id
@@ -266,3 +266,11 @@ def processOrder(request):
 		)
 
 	return JsonResponse('Payment submitted..', safe=False)
+
+
+
+
+def recentOrders(request):
+	orders = Order.objects.all()
+	context = {'orders' : orders}
+	return render(request, 'shop/recentOrders.html', context)
