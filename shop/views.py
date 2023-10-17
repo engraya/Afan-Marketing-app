@@ -2,26 +2,21 @@ from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.http import JsonResponse
-import json
-import datetime
 from .models import * 
 from .utils import cookieCart, cartData, guestOrder
 from django.core.paginator import Paginator
-
 
 # Create your views here.
 
 def landingPage(request):
 	return render(request, 'shop/landingPage.html')
 
-
+@login_required(login_url='landingPage')
 def home(request):
 	data = cartData(request)
 	cartItems = data['cartItems']
@@ -30,6 +25,8 @@ def home(request):
 	context =  {'cartItems' : cartItems, 'order' : order, 'items' : items}
 	return render(request, 'shop/home.html', context)
 
+
+@login_required(login_url='landingPage')
 def shop(request):
 	data = cartData(request)
 	cartItems = data['cartItems']
@@ -44,7 +41,7 @@ def shop(request):
 	context = {'page_obj' : page_obj, 'cartItems' : cartItems, 'order' : order, 'items' : items}
 	return render(request, 'shop/shopPage.html', context)
 
-
+@login_required(login_url='landingPage')
 def cart(request):
 	data = cartData(request)
 	cartItems = data['cartItems']
@@ -55,7 +52,7 @@ def cart(request):
 	return render(request, 'shop/cart.html', context)
 
 
-
+@login_required(login_url='landingPage')
 def checkOut(request):
 	data = cartData(request)
 
@@ -66,17 +63,9 @@ def checkOut(request):
 	context = {'items' : items, 'order' : order, 'cartItems' : cartItems}
 	return render(request, 'shop/checkout.html', context)
 
-
+@login_required(login_url='landingPage')
 def contactUs(request):
     return render(request, 'shop/contactUs.html')
-
-
-def farmerPage(request):
-	return render(request, 'shop/farmerPage.html')
-
-
-def buyerPage(request):
-	return render(request, 'shop/buyerPage.html')
 
 
 def farmerClick(request):
@@ -89,9 +78,6 @@ def buyerClick(request):
 	if request.user.is_authenticated:
 		return HttpResponseRedirect('home')
 	return render(request, 'shop/buyerClick.html')
-
-
-
 
 
 def farmerRegister(request):
@@ -182,7 +168,8 @@ def logoutPage(request):
 	logout(request)
 	return redirect('/')
 
-	
+@login_required(login_url='landingPage')
+@user_passes_test(is_farmer)	
 def addProduct(request):
 	if request.method == 'POST':
 		form  = ProductForm(request.POST, request.FILES)
@@ -199,7 +186,7 @@ def addProduct(request):
 
 
 
-
+@login_required(login_url='landingPage')
 def productDetails(request, pk):
 	data = cartData(request)
 	cartItems = data['cartItems']
@@ -209,7 +196,8 @@ def productDetails(request, pk):
 	context = {'product' : product, 'cartItems' : cartItems, 'order' : order, 'items' : items}
 	return render(request, 'shop/productDetail.html', context)
 
-
+@login_required(login_url='landingPage')
+@user_passes_test(is_farmer)
 def deleteProduct(request, pk):
 	product = Product.objects.get(id=pk)
 	product.delete()
@@ -242,45 +230,15 @@ def updateItem(request):
 	return JsonResponse('Item was added', safe=False)
 
 
-def processOrder(request):
-	transaction_id = datetime.datetime.now().timestamp()
-	data = json.loads(request.body)
-
-	if request.user.is_authenticated:
-		buyer = request.user.buyer
-		order, created = Order.objects.get_or_create(buyer=buyer, complete=False)
-	else:
-		buyer, order = guestOrder(request, data)
-
-	total = float(data['form']['total'])
-	order.transaction_id = transaction_id
-
-	if total == order.get_cart_total:
-		order.complete = True
-	order.save()
-
-	if order.shipping == True:
-		ShippingAddress.objects.create(
-		customer=customer,
-		order=order,
-		address=data['shipping']['address'],
-		city=data['shipping']['city'],
-		state=data['shipping']['state'],
-		zipcode=data['shipping']['zipcode'],
-		)
-
-	return JsonResponse('Payment submitted..', safe=False)
-
-
-
-
+@login_required(login_url='landingPage')
+@user_passes_test(is_farmer)
 def recentOrders(request):
 	orders = Order.objects.all()
 	context = {'orders' : orders}
 	return render(request, 'shop/recentOrders.html', context)
 
 
-
+@login_required(login_url='landingPage')
 def buyProceed(request):
 	data = cartData(request)
 	cartItems = data['cartItems']

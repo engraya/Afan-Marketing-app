@@ -18,17 +18,25 @@
             </div>         
         </div>
     <!--error section area start-->
-    <div class="error_section">
-        <div class="container">   
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>Buyer</h2>
-                    <p>Have a Wonderful experience purcahsing available Food Items<br/></p>
-                    <a href="{% url 'buyerRegister' %}"><button class="btn btn-lg btn-secondary">Register</button></a>
-                    <a href="{% url 'buyerLogin' %}"><button class="btn btn-lg btn-success">Login</button></a>
+    <div class="container mb-3 mt-5 pt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="account-contents">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="account-thumb col-md-12">
+                                <h2>BUYER</h2>
+                                <p>Have a Wonderful experience purchasing available Food Items<br/> High Quality, Cheaper and Realible Products</p>
+                                <div class="container">
+                                    <a href="{% url 'buyerRegister' %}"><button type="submit" class="btn btn-lg btn-primary">Register</button></a>
+                                    <a href="{% url 'buyerLogin' %}"><button type="submit" class="btn btn-lg btn-success">Login</button></a>
+                                </div>
+                            </div>
+                        </div><hr>
+                    </div>
                 </div>
             </div>
-        </div>    
+        </div>
     </div>
     <!--error section area end--> 
     {% endblock content %}

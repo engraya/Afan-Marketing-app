@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import *
 
@@ -26,6 +26,14 @@ class FarmerRegistrationForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'username', 'email', 'password']
 
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+            Buyer.objects.create(user=user)    
+        return user
+
+
 
 class BuyerRegistrationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -46,6 +54,17 @@ class BuyerRegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password']
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+            buyerGroup = Group.objects.get(name='BUYER')
+            user.groups.add(buyerGroup)
+
+            Buyer.objects.create(user=user)    
+
+        return user    
 
 
 class FarmerLoginForm(AuthenticationForm):
