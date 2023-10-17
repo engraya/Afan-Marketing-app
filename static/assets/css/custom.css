@@ -47,8 +47,8 @@ img {
     right: 10px;
     top: 10px;
     padding: 0 30px;
-    background: #5F27CD;
-    border: 2px solid #5F27CD;
+    background: #043b49;
+    border: 2px solid #043b49;
     font-size: 20px;
     color: #fff;
 }
@@ -218,7 +218,7 @@ img {
 	content: "";
 	height: 100%;
 	width: 100%;
-	background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%);
+	background-image: linear-gradient(180deg, #a456ac 0%, #11757c 100%);
 	top: 0;
 	left: 0;
 	opacity: 0.8;
@@ -280,14 +280,14 @@ section.shipping_area {
 }
 
 .footer_top {
-    background: #1d1678f0;
+    background: #043b49;
     padding: 60px 0 60px;
     color: #fff;
 	border-bottom: 0;
 }
 
 .footer_bottom {
-    background: #1D1678;
+    background: #043b49;
     color: #fff;
 }
 
@@ -386,7 +386,7 @@ section.shipping_area {
 
 .subscribe_form form button {
 	border-radius: 0;
-	background: #3e51eb;
+	background: #043b49;
 }
 
 .support_info p a:hover {
@@ -423,28 +423,30 @@ section.shipping_area {
 
 .account-contents:before {
     position: absolute;
+    border-radius : 20px;
     left: 0;
     top: 0;
     content: "";
     width: 100%;
     height: 100%;
-    background: radial-gradient(791.1px at 50% 1.82%, #2437bf 0, #001d6d 100%);
+    background: #043b49;
     z-index: -1;
     opacity: 0.8;
+    shadow : 19px;
 }
 
 .account-content a {
     font-weight: 700;
     font-size: 13px;
     text-transform: uppercase;
-    color: #1D1678;
+    color: #108028;
     line-height: 1;
     float: left;
     margin-bottom: 15px;
 }
 
 .account-content a:hover {
-    border-bottom: 2px solid #1D1678;
+    border-bottom: 2px solid #16781b;
 }
 
 .account-content a + a {
@@ -460,7 +462,7 @@ section.shipping_area {
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #1D1678;
+    color: #27860f;
     margin-bottom: 3px;
 }
 .single-acc-field label[for="checkbox"] {
@@ -483,12 +485,12 @@ section.shipping_area {
 }
 
 .single-acc-field input:focus, .single-acc-field textarea:focus {
-    border-color: #1D1678;
+    border-color: #18975c;
 }
 
 
 .single-acc-field button {
-    background: #1D1678;
+    background: #337506;
     color: #fff;
     border: 0;
     padding: 12px 32px;
@@ -499,7 +501,7 @@ section.shipping_area {
 }
 
 .single-acc-field button:hover {
-    background: #FA5252;
+    background: #1fb2c5;
 }
 
 .account-thumb {
@@ -627,7 +629,7 @@ section.shipping_area {
 }
 
 .slider_content a:hover {
-    background: #1D1678;
+    background: #043b49;
 }
 
 .single_slider {
@@ -640,7 +642,8 @@ section.shipping_area {
     height: 100%;
     width: 50%;
     right: -100px;
-    background: #3e51eb;
+    background: #043b49;
+    background: url('../img/image3.jpg');
     opacity: 0.8;
     transform: skew(-15deg, 0deg);
 }
@@ -951,6 +954,9 @@ iframe {
 .error_section {
     padding-bottom: 60px;
     padding-top: 60px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 .blog_header {

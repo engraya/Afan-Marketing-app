@@ -23,7 +23,12 @@ def landingPage(request):
 
 
 def home(request):
-    return render(request, 'shop/home.html')
+	data = cartData(request)
+	cartItems = data['cartItems']
+	order = data['order']
+	items = data['items']
+	context =  {'cartItems' : cartItems, 'order' : order, 'items' : items}
+	return render(request, 'shop/home.html', context)
 
 def shop(request):
 	data = cartData(request)
@@ -273,3 +278,13 @@ def recentOrders(request):
 	orders = Order.objects.all()
 	context = {'orders' : orders}
 	return render(request, 'shop/recentOrders.html', context)
+
+
+
+def buyProceed(request):
+	data = cartData(request)
+	cartItems = data['cartItems']
+	order = data['order']
+	items = data['items']
+	context = {'cartItems' : cartItems, 'order' : order, 'items' : items}
+	return render(request, 'shop/buyProceed.html', context)	

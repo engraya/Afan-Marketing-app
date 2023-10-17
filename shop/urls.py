@@ -6,7 +6,7 @@ urlpatterns = [
     path('home', views.home, name='home'),
     path('', views.landingPage, name="landingPage"),
     path('cart/', views.cart, name="cart"),
-    path('checkout/', views.checkOut, name="checkout"),
+    path('checkout', views.checkOut, name="checkout"),
     path('shop', views.shop, name="shop"),
     path('product/<int:pk>', views.productDetails, name="productDetail"),
     path('deleteProduct/<int:pk>', views.deleteProduct, name='deleteProduct'),
@@ -27,5 +27,6 @@ urlpatterns = [
     path('newProduct', views.addProduct, name="newProduct"),
     path('update_item/', views.updateItem, name="update_item"),
     path('process_order/', views.processOrder, name="process_order"),
-    path('recent-orders', views.recentOrders, name='recent-orders')
+    path('recent-orders', views.recentOrders, name='recent-orders'),
+    path('buyProceed', views.buyProceed, name='buy')
 ]
