@@ -41,8 +41,8 @@
                                     <td class="product_thumb"><a href="#"><img src="{{item.product.imageURL}}" alt=""></a></td>
                                     <td class="product_name"><a href="#">{{item.product.name}}</a></td>
                                     <td class="product-price">&#8358; {{item.product.price|floatformat:2}}</td>
-                                    <td class="product_quantity"><label>Quantity</label> <input min="1" max="100" value="{{item.quantity}}" type="number"></td>
-                             -->
+                                    <td class="product_quantity">{{item.quantity}}</td>
+                                    <td class="product_total">&#8358; {{item.get_total|floatformat:2}}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="cart_subtotal">
                                     <p>Total</p>
-                                 
+                                    <p class="cart_amount">&#8358; {{order.get_cart_total|floatformat:2}}</p>
                                 </div>
                                 <div class="checkout_btn">
                                     <a href="{% url 'checkout' %}">Proceed to Checkout</a>

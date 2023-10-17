@@ -48,21 +48,23 @@
                                 
                             </div>
                             <div class="price_box">
-                                <span class="current_price">$70.00</span>
+                                <span class="current_price">&#8358; {{product.price}}</span>
                                 
                             </div>
                             <div class="product_desc">
                                 <ul>
                                     <li>In Stock</li>
                                 </ul>
-                                <a href="{% url 'deleteProduct' product.id %}" class="btn btn-sm btn-danger">Delete Product</a>
+                                {% for group in user.groups.all %}
+                                    {% if group.name == 'FARMER' %}
+                                        <a href="{% url 'deleteProduct' product.id %}" class="btn btn-sm btn-danger">Delete Product</a>
+                                    {% endif %}
+                                {% endfor %}        
                             </div>
                             {% for group in user.groups.all %}
                                 {% if group.name == 'BUYER' %}
                                     <div class="product_variant quantity">
-                                        <label>quantity</label>
-                                        <input min="1" max="100" value="1" type="number">
-                                        <button class="button" type="submit">add to cart</button>  
+                                        <button data-product="{{product.id}}" data-action="add" class="btn btn-sm btn-success add-btn update-cart" id="buyButton">Buy</button>  
                                     </div>
                                 {% endif %}
                             {% endfor %}        

@@ -129,11 +129,6 @@ def is_buyer(user):
     return user.groups.filter(name='BUYER').exists()
 
 
-
-
-
-
-
 def farmerLogin(request):
 	if request.method == 'POST':
 		form = FarmerLoginForm(request, data=request.POST)
@@ -201,8 +196,12 @@ def addProduct(request):
 
 
 def productDetails(request, pk):
+	data = cartData(request)
+	cartItems = data['cartItems']
+	order = data['order']
+	items = data['items']
 	product = Product.objects.get(id=pk)
-	context = {'product' : product}
+	context = {'product' : product, 'cartItems' : cartItems, 'order' : order, 'items' : items}
 	return render(request, 'shop/productDetail.html', context)
 
 
