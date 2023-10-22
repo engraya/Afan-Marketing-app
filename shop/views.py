@@ -10,7 +10,8 @@ from django.http import JsonResponse
 from .models import * 
 from .utils import cookieCart, cartData, guestOrder
 from django.core.paginator import Paginator
-
+import json
+import datetime
 # Create your views here.
 
 def landingPage(request):
