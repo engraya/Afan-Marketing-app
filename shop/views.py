@@ -39,7 +39,8 @@ def shop(request):
 	page_number = request.GET.get('page')
 	page_obj = paginator.get_page(page_number)
 
-	context = {'page_obj' : page_obj, 'cartItems' : cartItems, 'order' : order, 'items' : items}
+	totalProductsCount = Product.objects.all().count()
+	context = {'page_obj' : page_obj, 'cartItems' : cartItems, 'order' : order, 'items' : items, 'totalProductCount' : totalProductsCount}
 	return render(request, 'shop/shopPage.html', context)
 
 @login_required(login_url='landingPage')
