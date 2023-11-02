@@ -22,7 +22,7 @@ class Farmer(models.Model):
 class Product(models.Model):
 	name = models.CharField(max_length=200)
 	commonName = models.CharField(max_length=200, null=True, blank=True)
-	price = models.DecimalField(max_digits=8, decimal_places=2)
+	pricePerKilogram = models.DecimalField(max_digits=8, decimal_places=2)
 	description = models.TextField(null=True, blank=True)
 	image = models.ImageField(upload_to='products/', default="", null=True, blank=True)
 

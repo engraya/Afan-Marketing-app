@@ -96,7 +96,7 @@ class ProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["name"].widget.attrs.update({"class": "form-control unicase-form-control", "placeholder" : "Enter Product Name", })
-        self.fields["price"].widget.attrs.update({"class": "form-control unicase-form-control", "placeholder" : "Enter Product price",})
+        self.fields["pricePerKilogram"].widget.attrs.update({"class": "form-control unicase-form-control", "placeholder" : "Enter Product price",})
         self.fields["description"].widget.attrs.update({"class": "form-control unicase-form-control", "placeholder" : "Enter Product Description",})
         self.fields["image"].widget.attrs.update({"class": "form-control unicase-form-control", "placeholder" : "Choose Product Image",})
 
